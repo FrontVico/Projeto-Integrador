@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabela Periódica Interativa</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- CSS -->
+
+  <!-- JS -->
+  <script>
+    function showSidebar () {
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.style.display = 'flex';
+    }
+    
+    function hideSidebar () {
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.style.display = 'none';
+    }    
+  </script>
+  <script src="../js/script.js"></script>
+  <!-- JS -->
+
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <!-- sidebar -->
+  <nav class="navbar navbar bg-orange-100">
+    <ul class="sidebar">
+    <li onclick="hideSidebar()"><a href=""><img class="close" src="../img/close.png" alt=""></a></li>
+    <li><a href="pages/calc.html">Pagina Inicial</a></li>
+    <li><a href="../pages/conversor.html">Conversor Químico</a></li>
+    <li><a href="pages/becase.html">Porque usar o nosso site?</a></li>
+    <li><a href="pages/dev.html">Equipe</a></li>
+    </ul>
+ </nav>
+ 
+ <!-- navbar -->
+<nav class="navbar bg-orange-100">
+   <ul>
+    <li><img class="logo" src="../img/logo.png" alt=""></li>
+    <li class="hideOnMobile"><a href="pages/becase.html">Pagina inicial</a></li>
+    <li class="hideOnMobile"><a href="../pages/conversor.html">Conversor Químico</a></li>
+    <li class="hideOnMobile"><a href="pages/becase.html">Porque usar o nosso site?</a></li>
+    <li class="hideOnMobile"><a href="pages/dev.html">Equipe</a></li>
+    <li class="menu-button" onclick="showSidebar()"><a href="#"><img class="open" src="../img/open.png" alt=""></a></li>
+   </ul>
+</nav>
+
+  <div class="container mx-auto px-4 py-8">
+    <!-- Cabeçalho -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-orange-500 mb-2">Tabela Periódica</h1>
+      <p class="text-lg text-orange-400">Explore os elementos químicos e suas propriedades</p>
+    </div>
+    
+    <!-- Painel de Busca -->
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+      <div class="flex flex-col md:flex-row gap-4">
+        <!-- Busca por nome/símbolo -->
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Buscar Elemento</label>
+          <div class="relative">
+            <input type="text" id="elementSearch" 
+                   class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
+                   placeholder="Digite nome ou símbolo">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-search text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Filtro por categoria -->
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Filtrar por</label>
+          <select id="elementFilter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="all">Todos os elementos</option>
+            <option value="metal">Metais</option>
+            <option value="nonmetal">Não-metais</option>
+            <option value="metalloid">Semimetais</option>
+            <option value="noble">Gases Nobres</option>
+            <option value="alkali">Metais Alcalinos</option>
+            <option value="alkaline">Metais Alcalino-Terrosos</option>
+            <option value="transition">Metais de Transição</option>
+            <option value="lanthanide">Lantanídeos</option>
+            <option value="actinide">Actinídeos</option>
+          </select>
+        </div>
+        
+        <!-- Botão de ajuda -->
+        <div class="flex items-end">
+          <button id="helpButton" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
+            <i class="fas fa-question-circle mr-2"></i>Ajuda
+          </button>
+        </div>
+      </div>
+      
+      <!-- Sugestões de busca -->
+      <div id="searchSuggestions" class="mt-2 hidden">
+        <div class="text-sm text-gray-500">Sugestões: <span class="text-blue-600 cursor-pointer">Hidrogênio</span>, <span class="text-blue-600 cursor-pointer">Fe</span>, <span class="text-blue-600 cursor-pointer">Ouro</span></div>
+      </div>
+    </div>
+    
+    <!-- Tabela Periódica e Informações -->
+    <div class="flex flex-col lg:flex-row gap-6">
+      <!-- Tabela Periódica -->
+      <div class="flex-1">
+        <div class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Elementos</h2>
+          <div id="periodicTable" class="grid grid-cols-18 gap-1"></div>
+          
+          <!-- Legenda -->
+          <div class="mt-6 pt-4 border-t border-gray-200">
+            <h3 class="text-sm font-medium text-gray-700 mb-2">Legenda:</h3>
+            <div class="flex flex-wrap gap-2">
+              <div class="flex items-center">
+                <div class="w-4 h-4 bg-red-200 rounded mr-1"></div>
+                <span class="text-xs">Alcalinos</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-4 h-4 bg-orange-200 rounded mr-1"></div>
+                <span class="text-xs">Alcalino-Terrosos</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-4 h-4 bg-blue-200 rounded mr-1"></div>
+                <span class="text-xs">Transição</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-4 h-4 bg-green-200 rounded mr-1"></div>
+                <span class="text-xs">Não-Metais</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-4 h-4 bg-cyan-200 rounded mr-1"></div>
+                <span class="text-xs">Gases Nobres</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Painel de Informações -->
+      <div class="lg:w-96">
+        <div id="elementInfo" class="bg-white rounded-xl shadow-md p-6 sticky top-4">
+          <div class="text-center mb-4">
+            <div id="elementSymbol" class="text-6xl font-bold text-blue-600 mb-2"></div>
+            <h2 id="elementName" class="text-2xl font-semibold text-gray-800"></h2>
+            <div id="elementCategory" class="text-sm text-gray-500 mt-1"></div>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-gray-50 p-3 rounded-lg">
+                <div class="text-xs text-gray-500">Número Atômico</div>
+                <div id="atomicNumber" class="text-lg font-semibold"></div>
+              </div>
+              <div class="bg-gray-50 p-3 rounded-lg">
+                <div class="text-xs text-gray-500">Massa Atômica</div>
+                <div id="atomicMass" class="text-lg font-semibold"></div>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-gray-50 p-3 rounded-lg">
+                <div class="text-xs text-gray-500">Grupo</div>
+                <div id="elementGroup" class="text-lg font-semibold"></div>
+              </div>
+              <div class="bg-gray-50 p-3 rounded-lg">
+                <div class="text-xs text-gray-500">Período</div>
+                <div id="elementPeriod" class="text-lg font-semibold"></div>
+              </div>
+            </div>
+            
+            <div class="bg-gray-50 p-3 rounded-lg">
+              <div class="text-xs text-gray-500">Estado em 25°C</div>
+              <div id="elementState" class="text-lg font-semibold"></div>
+            </div>
+            
+            <div class="bg-gray-50 p-3 rounded-lg">
+              <div class="text-xs text-gray-500">Configuração Eletrônica</div>
+              <div id="electronConfig" class="text-lg font-semibold font-mono"></div>
+            </div>
+            
+            <div class="bg-gray-50 p-3 rounded-lg">
+              <div class="text-xs text-gray-500">Descrição</div>
+              <div id="elementDescription" class="text-sm mt-1"></div>
+            </div>
+          </div>
+          
+          <div class="mt-6 pt-4 border-t border-gray-200">
+            <h3 class="text-sm font-medium text-gray-700 mb-2">Propriedades Adicionais</h3>
+            <div class="grid grid-cols-2 gap-2 text-sm">
+              <div><span class="text-gray-500">Densidade:</span> <span id="elementDensity"></span></div>
+              <div><span class="text-gray-500">Ponto de Fusão:</span> <span id="elementMeltingPoint"></span></div>
+              <div><span class="text-gray-500">Ponto de Ebulição:</span> <span id="elementBoilingPoint"></span></div>
+              <div><span class="text-gray-500">Eletronegatividade:</span> <span id="elementElectronegativity"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Ajuda -->
+  <div id="helpModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-gray-800">Como usar</h3>
+        <button id="closeHelpModal" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <h4 class="font-semibold text-blue-600 mb-1">Buscar Elementos</h4>
+          <p class="text-sm text-gray-600">Digite o nome, símbolo ou número atômico do elemento no campo de busca.</p>
+        </div>
+        <div>
+          <h4 class="font-semibold text-blue-600 mb-1">Filtrar Elementos</h4>
+          <p class="text-sm text-gray-600">Use o menu suspenso para filtrar por categorias como metais, não-metais, etc.</p>
+        </div>
+        <div>
+          <h4 class="font-semibold text-blue-600 mb-1">Selecionar Elementos</h4>
+          <p class="text-sm text-gray-600">Clique em qualquer elemento na tabela para ver suas propriedades detalhadas.</p>
+        </div>
+      </div>
+      <div class="mt-6 pt-4 border-t border-gray-200">
+        <h4 class="font-semibold text-blue-600 mb-2">Dicas Rápidas</h4>
+        <ul class="list-disc pl-5 text-sm text-gray-600 space-y-1">
+          <li>Tente buscar "Au" para ouro ou "26" para ferro</li>
+          <li>Metais alcalinos estão na primeira coluna</li>
+          <li>Gases nobres estão na última coluna</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
