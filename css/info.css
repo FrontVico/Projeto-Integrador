@@ -1,0 +1,214 @@
+:root {
+    --primary: #7e22ce;
+    --secondary: #f59e0b;
+    --dark: #1e293b;
+    --light: #f8fafc;
+  }
+  
+  .background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #4f46e5 0%, #7e22ce 100%);
+    z-index: -1;
+  }
+  
+  .content-wrapper {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.96);
+    min-height: 100vh;
+    backdrop-filter: blur(2px);
+  }
+  
+  .hero-section {
+    background: linear-gradient(to right, rgba(126, 34, 206, 0.9), rgba(79, 70, 229, 0.9));
+    color: white;
+    padding: 6rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 Q50,80 0,100 Z"></path></svg>');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: bottom;
+  }
+  
+  .molecule {
+    position: absolute;
+    opacity: 0.1;
+    z-index: 0;
+  }
+  
+  .molecule-1 {
+    top: 20%;
+    left: 10%;
+    font-size: 8rem;
+    color: white;
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  .molecule-2 {
+    bottom: 15%;
+    right: 10%;
+    font-size: 12rem;
+    color: rgba(255,255,255,0.15);
+    animation: float 10s ease-in-out infinite reverse;
+  }
+  
+  .feature-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    overflow: hidden;
+    border: none;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  }
+  
+  .card-header {
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    color: white;
+    padding: 1.5rem;
+    position: relative;
+  }
+  
+  .card-header::after {
+    content: "";
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: white;
+    clip-path: ellipse(75% 100% at 50% 0%);
+  }
+  
+  .chem-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, white, #f8fafc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .element-bubble {
+    display: inline-flex;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    margin: 0.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .element-bubble:hover {
+    transform: scale(1.1) rotate(10deg);
+  }
+  
+  .reaction-animation {
+    display: inline-block;
+    position: relative;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .reaction-animation::after {
+    content: "→";
+    position: absolute;
+    right: -25px;
+    animation: pulse 1.5s infinite;
+    color: var(--secondary);
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+  }
+  
+  .periodic-grid {
+    display: grid;
+    grid-template-columns: repeat(18, 1fr);
+    gap: 3px;
+    margin: 2rem 0;
+  }
+  
+  .periodic-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  
+  .periodic-cell:hover {
+    transform: scale(1.3);
+    z-index: 10;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+  
+  .cta-button {
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: bold;
+    box-shadow: 0 10px 20px rgba(126, 34, 206, 0.3);
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(126, 34, 206, 0.4);
+  }
+  
+  .cta-button::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.3) 50%,
+      rgba(255,255,255,0) 100%
+    );
+    transform: rotate(30deg);
+    transition: all 0.5s ease;
+  }
+  
+  .cta-button:hover::after {
+    left: 100%;
+  }
