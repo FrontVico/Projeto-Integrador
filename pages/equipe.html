@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nossa Equipe | Química Simplificada</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .background-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: blur(8px);
+      z-index: -1;
+      opacity: 0.7;
+    }
+    
+    .content-wrapper {
+      position: relative;
+      background-color: rgba(255, 255, 255, 0.9);
+      min-height: 100vh;
+    }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    
+    .footer-bg {
+      background-color: rgba(254, 243, 199, 0.9);
+    }
+    
+    .team-carousel {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .team-member {
+      display: none;
+      padding: 0;
+    }
+    
+    .team-member.active {
+      display: flex;
+      flex-direction: column;
+      animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    
+    .member-header {
+      background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+      padding: 2rem;
+      border-radius: 20px 20px 0 0;
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+    
+    .member-photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid white;
+      margin: 0 auto;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transform: translateY(50px);
+      z-index: 2;
+      position: relative;
+      background: white;
+    }
+    
+    .member-info {
+      margin-top: 70px;
+      padding: 2rem;
+      text-align: center;
+    }
+    
+    .member-name {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #1f2937;
+      margin-bottom: 0.3rem;
+    }
+    
+    .member-role {
+      font-size: 1.1rem;
+      color: #f97316;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+    
+    .member-contributions {
+      background-color: white;
+      padding: 1.8rem;
+      border-radius: 0 0 20px 20px;
+      margin-top: -1px;
+      text-align: left;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .contribution-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed #e5e7eb;
+    }
+    
+    .contribution-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    
+    .contribution-icon {
+      background: #fef3c7;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      flex-shrink: 0;
+      color: #f97316;
+    }
+    
+    .carousel-nav {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    
+    .nav-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      color: #f97316;
+    }
+    
+    .nav-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      background: #f97316;
+      color: white;
+    }
+    
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+    
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background-color: #e5e7eb;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .dot.active {
+      background-color: #f97316;
+      transform: scale(1.2);
+    }
+    
+    .dot:hover {
+      transform: scale(1.1);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @media (max-width: 768px) {
+      .member-photo {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .member-name {
+        font-size: 1.5rem;
+      }
+      
+      .member-contributions {
+        padding: 1.2rem;
+      }
+      
+      .contribution-item {
+        flex-direction: column;
+      }
+      
+      .contribution-icon {
+        margin-bottom: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Image with Blur -->
+  <div class="background-image"></div>
+  
+  <div class="content-wrapper">
+    <!-- sidebar -->
+    <nav class="navbar navbar bg-orange-100">
+      <ul class="sidebar">
+        <li onclick="hideSidebar()"><a href=""><img class="close" src="../img/close.png" alt=""></a></li>
+        <li><a href="pages/calc.html">Pagina Inicial</a></li>
+        <li><a href="../pages/conversor.html">Conversor Químico</a></li>
+        <li><a href="../pages/tabela.html">Tabela Periódica</a></li>
+        <li><a href="pages/becase.html">Porque usar o nosso site?</a></li>
+        <li><a href="pages/dev.html">Equipe</a></li>
+      </ul>
+    </nav>
+    
+    <!-- navbar -->
+    <nav class="navbar bg-orange-100">
+      <ul>
+        <li><img class="logo" src="../img/logo.png" alt=""></li>
+        <li class="hideOnMobile"><a href="pages/becase.html">Pagina inicial</a></li>
+        <li class="hideOnMobile"><a href="../pages/conversor.html">Conversor Químico</a></li>
+        <li class="hideOnMobile"><a href="../pages/tabela.html">Tabela Periódica</a></li>
+        <li class="hideOnMobile"><a href="pages/becase.html">Porque usar o nosso site?</a></li>
+        <li class="hideOnMobile"><a href="pages/dev.html">Equipe</a></li>
+        <li class="menu-button" onclick="showSidebar()"><a href="#"><img class="open" src="../img/open.png" alt=""></a></li>
+      </ul>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+      <!-- Cabeçalho -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-orange-600 mb-4">Conheça Nossa Equipe</h1>
+        <p class="text-xl text-orange-500 font-medium">Os talentos por trás do Química Simplificada</p>
+      </div>
+      
+      <!-- Carrossel da Equipe -->
+      <div class="team-carousel glass-card">
+        <!-- Membro 1 - Yuji -->
+        <div class="team-member active">
+          <div class="member-header">
+            <img src="../img/Yuji.jpeg" alt="Yuji" class="member-photo">
+          </div>
+          <div class="member-info">
+            <h2 class="member-name">Yuji</h2>
+            <p class="member-role">Desenvolvedor Front-end</p>
+          </div>
+          <div class="member-contributions">
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-code"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Interface do Conversor</h3>
+                <p class="text-gray-600 text-sm">Desenvolveu toda a interface do conversor químico com foco em usabilidade</p>
+              </div>
+            </div>
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Design Responsivo</h3>
+                <p class="text-gray-600 text-sm">Garantiu que o site funcione perfeitamente em todos os dispositivos</p>
+              </div>
+            </div>
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-calculator"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Sistema de Cálculos</h3>
+                <p class="text-gray-600 text-sm">Implementou os algoritmos para conversões precisas</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Membro 2 - Gustavo Pereira -->
+        <div class="team-member">
+          <div class="member-header">
+            <img src="../img/Gustavo Pereira.jpeg" alt="Gustavo Pereira" class="member-photo">
+          </div>
+          <div class="member-info">
+            <h2 class="member-name">Gustavo Pereira</h2>
+            <p class="member-role">Especialista em Química</p>
+          </div>
+          <div class="member-contributions">
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-flask"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Validação Científica</h3>
+                <p class="text-gray-600 text-sm">Garantiu a precisão de todos os cálculos e informações químicas</p>
+              </div>
+            </div>
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-table"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Dados da Tabela Periódica</h3>
+                <p class="text-gray-600 text-sm">Curadoria e organização dos dados dos elementos químicos</p>
+              </div>
+            </div>
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Controle de Qualidade</h3>
+                <p class="text-gray-600 text-sm">Revisão de todo o conteúdo científico do projeto</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Membro 3 - Leonardo Feitosa -->
+        <div class="team-member">
+          <div class="member-header">
+            <img src="../img/Leonaorado Feitosa.jpeg" alt="Leonardo Feitosa" class="member-photo">
+          </div>
+          <div class="member-info">
+            <h2 class="member-name">Leonardo Feitosa</h2>
+            <p class="member-role">Designer UX/UI</p>
+          </div>
+          <div class="member-contributions">
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-paint-brush"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Design da Interface</h3>
+                <p class="text-gray-600 text-sm">Criou a identidade visual e o design de todas as páginas</p>
+              </div>
+            </div>
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-user-friends"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Experiência do Usuário</h3>
+                <p class="text-gray-600 text-sm">Desenvolveu fluxos intuitivos para melhor navegação</p>
+              </div>
+            </div>
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-palette"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Identidade Visual</h3>
+                <p class="text-gray-600 text-sm">Definiu a paleta de cores e elementos gráficos do projeto</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Membro 4 - Rafael Torri -->
+        <div class="team-member">
+          <div class="member-header">
+            <img src="../img/Rafael Torri.jpeg" alt="Rafael Torri" class="member-photo">
+          </div>
+          <div class="member-info">
+            <h2 class="member-name">Rafael Torri</h2>
+            <p class="member-role">Desenvolvedor Back-end</p>
+          </div>
+          <div class="member-contributions">
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-server"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Arquitetura do Sistema</h3>
+                <p class="text-gray-600 text-sm">Desenhou a estrutura técnica do projeto</p>
+              </div>
+            </div>
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-bolt"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Otimização</h3>
+                <p class="text-gray-600 text-sm">Garantiu a performance e velocidade do site</p>
+              </div>
+            </div>
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-database"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Banco de Dados</h3>
+                <p class="text-gray-600 text-sm">Implementou o armazenamento e recuperação de dados</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Membro 5 - João Ferraz -->
+        <div class="team-member">
+          <div class="member-header">
+            <img src="../img/João Ferraz.jpeg" alt="João Ferraz" class="member-photo">
+          </div>
+          <div class="member-info">
+            <h2 class="member-name">João Ferraz</h2>
+            <p class="member-role">Gerente de Projeto</p>
+          </div>
+          <div class="member-contributions">
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-tasks"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Coordenação</h3>
+                <p class="text-gray-600 text-sm">Gerenciou toda a equipe e prazos do projeto</p>
+              </div>
+            </div>
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Planejamento</h3>
+                <p class="text-gray-600 text-sm">Organizou sprints e metas de desenvolvimento</p>
+              </div>
+            </div>
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Comunicação</h3>
+                <p class="text-gray-600 text-sm">Facilitou a colaboração entre os membros da equipe</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Membro 6 - Indiano -->
+        <div class="team-member">
+          <div class="member-header">
+            <img src="../img/Indiano.jpeg" alt="Indiano" class="member-photo">
+          </div>
+          <div class="member-info">
+            <h2 class="member-name">Indiano</h2>
+            <p class="member-role">Especialista em QA</p>
+          </div>
+          <div class="member-contributions">
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-bug"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Testes de Qualidade</h3>
+                <p class="text-gray-600 text-sm">Identificou e reportou problemas em todas as funcionalidades</p>
+              </div>
+            </div>
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-check-double"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Garantia de Usabilidade</h3>
+                <p class="text-gray-600 text-sm">Assegurou que o site seja intuitivo e fácil de usar</p>
+              </div>
+            </div>
+            <div class="contribution-item">
+              <div class="contribution-icon">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800 mb-1">Testes de Compatibilidade</h3>
+                <p class="text-gray-600 text-sm">Verificou o funcionamento em diferentes navegadores e dispositivos</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Navegação do Carrossel -->
+        <div class="carousel-nav">
+          <button onclick="prevMember()" class="nav-btn">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button onclick="nextMember()" class="nav-btn">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        
+        <!-- Indicadores de Página -->
+        <div class="carousel-dots">
+          <span class="dot active" onclick="goToMember(0)"></span>
+          <span class="dot" onclick="goToMember(1)"></span>
+          <span class="dot" onclick="goToMember(2)"></span>
+          <span class="dot" onclick="goToMember(3)"></span>
+          <span class="dot" onclick="goToMember(4)"></span>
+          <span class="dot" onclick="goToMember(5)"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="footer-bg py-6 mt-12 border-t border-orange-200">
+      <div class="container mx-auto px-4 text-center text-gray-700">
+        <p>© 2023 Química Simplificada. Todos os direitos reservados.</p>
+        <div class="flex justify-center space-x-4 mt-4">
+          <a href="#" class="hover:text-orange-500"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="hover:text-orange-500"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="hover:text-orange-500"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JS -->
+  <script>
+    // Funções da sidebar
+    function showSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.style.display = 'flex';
+    }
+    
+    function hideSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.style.display = 'none';
+    }
+    
+    // Carrossel da equipe
+    let currentMember = 0;
+    const members = document.querySelectorAll('.team-member');
+    const dots = document.querySelectorAll('.dot');
+    
+    function showMember(index) {
+      members.forEach(member => member.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+      
+      members[index].classList.add('active');
+      dots[index].classList.add('active');
+      currentMember = index;
+    }
+    
+    function nextMember() {
+      let nextIndex = (currentMember + 1) % members.length;
+      showMember(nextIndex);
+    }
+    
+    function prevMember() {
+      let prevIndex = (currentMember - 1 + members.length) % members.length;
+      showMember(prevIndex);
+    }
+    
+    function goToMember(index) {
+      showMember(index);
+    }
+    
+    // Auto-rotacionar (opcional)
+    // setInterval(nextMember, 5000);
+  </script>
+</body>
+</html>
